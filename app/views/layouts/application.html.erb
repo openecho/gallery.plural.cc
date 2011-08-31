@@ -2,14 +2,36 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title><%= ENV['TITLE'] || "Photos" %></title>
-	<meta name = "viewport" content = "width = device-width">
-	<meta name = "viewport" content = "initial-scale = 1.0, user-scalable=no">
-	<%= yield :head %>
-	<%= stylesheet_link_tag 'application' %>
+	<%= render 'layouts/stylesheets' %>
+	<%= content_for?(:stylesheet) ? yield(:stylesheet) : "" %>
+	<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js' %>
+	<%= content_for?(:javascript) ? yield(:javascript) : "" %>
 	<%= csrf_meta_tag %>
 </head>
 <body>
+<%= render 'layouts/sitebar' %>
+<%= render 'layouts/header' %>
+<div id="page">
+
+	<div id="action_links">
+	<%= yield :action_links %>
+	<% if current_user %>
+	Logged in as <%= current_user.name %>
+	<%= link_to 'Logout', logout_path %>
+	<% end %>
+	</div>
+
+	<%= breadcrumbs %>
+
+	<div id="content">
+<%= content_for?(:content) ? content_block(yield(:content)) : yield %>
+	</div>	
+</div>
+
+<%= render 'layouts/footer' %>
+<%= content_for?(:tracker) ? yield(:tracker) : render(:partial=>"layouts/default/tracker") %>
+
+<!--
 <div id="container">
 
 <div id="header">
@@ -39,10 +61,10 @@
 <div id="footer">
   
   <hr class="seperator" />
-  &copy; <a href="http://balderapp.com">Balder - open source photo gallery</a>.
+  .
 </div>
 </div>
-
+-->
 <%= javascript_include_tag 'jquery-1.4.2.js', 'rails', 'balder' %>
 <%= yield :javascript %>
 </body>
