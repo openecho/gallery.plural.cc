@@ -17,5 +17,11 @@ module Balder
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
+
+config.log_level = Logger::WARN # In any environment initializer, or
+
   end
 end
+
+
+

@@ -68,11 +68,13 @@ class PhotosController < ApplicationController
     @photo = Photo.new
   end
 
+
   def upload
     @album = Album.find( params[:album_id])
   end
 
   def create
+#log.info "Test"
     @photo = Photo.new(params[:photo])
     @photo.file = params[:file]
     respond_to do |format|
